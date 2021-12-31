@@ -15,10 +15,6 @@ One founder even asked if we have something like Azure DevOps, GCP Cloud Run, or
 
 This applies to all startups that want to deploy a SPA front-end + microservice APIs back-end. It also highlights the usage of CDK Pipelines and AWS Developer Tools which potentially simplifies the technology aspect of devops for a developer-centric market like the Philippines.
 
-## Sample Usage
-
-(to be added)
-
 ## Prerequisites
 
 * a development machine with [Yarn](https://yarnpkg.com/getting-started/install) and [CDK](https://docs.aws.amazon.com/cdk/latest/guide/getting_started.html)
@@ -63,15 +59,18 @@ cdk deploy
 
 #### How does an IaC pipeline simplify building on the cloud?
 
-(to be added)
+An IaC pipeline allows the tech team to codify their architecture. This has many benefits among them being:
+1. Deployment is consistent and repeatable as the code defines what is being deployed as opposed to a manual process.
+1. All the benefits granted by a repository to application code now also applies to software architecture.
+1. Human error in configuration is minimized. And if ever there is an error, it's just a matter of modifying the code and pushing the changes.
 
 #### Why use CDK instead of CloudFormation scripts?
 
-(to be added)
+CloudFormation is very verbose. Just deploying a simple VPC with a few subnets becomes very complicated. Contrast that to using CDK where sensible defaults are provided. Furthermore, the use of a programming language in CDK enables the use of programming constructs. For example, intead of relying on having multiple templates and picking one based on a specific scenariio, an if-else construct can be used.
 
 #### What value does CDK Pipelines add to CDK?
 
-(to be added)
+CDK Pipelines enables the creation of a CI/CD pipeline for the architecture itself! This means that all the benefits of a CI/CD pipeline for applications now also apply to architecture.
 
 ## Schema
 
