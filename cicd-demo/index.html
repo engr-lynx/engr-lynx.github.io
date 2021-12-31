@@ -1,0 +1,191 @@
+<h1 id="ci-cd-for-spa-microservices">CI/CD for SPA &amp; Microservices</h1>
+<p>Simplify building on AWS by adopting this <a href="https://docs.aws.amazon.com/cdk/latest/guide/home.html">CDK</a> boilerplate for an <a href="https://searchitoperations.techtarget.com/tip/Building-an-infrastructure-as-code-pipeline-in-the-cloud">IaC Pipeline</a>. If you&#39;re new to AWS, this can help. It contains pre-made architectural decisions allowing you to get started quickly. Yet because it&#39;s IaC, you also have flexibility. You can easily update your architecture by pushing code modifications to your repository. </p>
+<h2 id="sample-usage">Sample Usage</h2>
+<p>(to be added)</p>
+<h2 id="prerequisites">Prerequisites</h2>
+<ul>
+<li>a development machine with <a href="https://yarnpkg.com/getting-started/install">Yarn</a> and <a href="https://docs.aws.amazon.com/cdk/latest/guide/getting_started.html">CDK</a></li>
+<li><a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/getting-started_create-admin-group.html">IAM admin</a> with <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_users_create.html">programmatic access</a></li>
+<li>if going to use CodeCommit, relevant IAM users should have <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_ssh-keys.html">credentials set up</a></li>
+<li>if going to use GitHub, <a href="https://docs.github.com/en/github/authenticating-to-github/keeping-your-account-and-data-secure/creating-a-personal-access-token">access token</a> needs to be in <a href="https://docs.aws.amazon.com/secretsmanager/latest/userguide/tutorials_basic.html">Secrets Manager</a></li>
+</ul>
+<h2 id="initial-deployment">Initial Deployment</h2>
+<ul>
+<li>Configure <code>cdk.context.yaml</code>. See <a href="#schema">Schema</a> below.</li>
+<li>Install the dependencies:<pre><code class="lang-bash">yarn install
+npx yaml2json cdk<span class="hljs-selector-class">.context</span><span class="hljs-selector-class">.yaml</span> &gt; cdk<span class="hljs-selector-class">.context</span><span class="hljs-selector-class">.json</span>
+</code></pre>
+</li>
+<li>Test that the configuration and code synthesizes properly:<pre><code class="lang-bash"><span class="hljs-attribute">cdk synth</span>
+</code></pre>
+</li>
+<li><a href="https://docs.aws.amazon.com/cdk/latest/guide/bootstrapping.html">Bootstrap CDK</a> in the AWS account and region to be used:<pre><code class="lang-bash">cdk bootstrap \
+--cloudformation-execution-policies <span class="hljs-string">arn:</span><span class="hljs-string">aws:</span><span class="hljs-string">iam:</span>:<span class="hljs-string">aws:</span>policy/AdministratorAccess \
+<span class="hljs-string">aws:</span><span class="hljs-comment">//&lt;account&gt;/&lt;region&gt;</span>
+</code></pre>
+</li>
+<li>Deploy this pipeline:<pre><code class="lang-bash"><span class="hljs-attribute">cdk deploy</span>
+</code></pre>
+</li>
+<li>If CodeCommit is created for this IaC code, <a href="https://docs.aws.amazon.com/codecommit/latest/userguide/how-to-connect.html#how-to-connect-local">connect the local to the remote repo</a>.</li>
+</ul>
+<h2 id="screenshots">Screenshots</h2>
+<p><img src="https://res.cloudinary.com/engr-lynx/image/upload/v1623983025/iac/iac-pipeline-1.png" alt="IaC Pipeline 1" title="IaC Pipeline 1">
+<img src="https://res.cloudinary.com/engr-lynx/image/upload/v1623983025/iac/iac-pipeline-2.png" alt="IaC Pipeline 2" title="IaC Pipeline 2"></p>
+<h2 id="tech-stack">Tech Stack</h2>
+<p><a href="https://docs.aws.amazon.com/cdk/latest/guide/home.html">CDK</a>, <a href="https://aws.amazon.com/blogs/developer/cdk-pipelines-continuous-delivery-for-aws-cdk-applications/">CDK Pipelines</a>, TypeScript</p>
+<h2 id="faq">FAQ</h2>
+<h4 id="how-does-an-iac-pipeline-simplify-building-on-the-cloud-">How does an IaC pipeline simplify building on the cloud?</h4>
+<p>(to be added)</p>
+<h4 id="why-use-cdk-instead-of-cloudformation-scripts-">Why use CDK instead of CloudFormation scripts?</h4>
+<p>(to be added)</p>
+<h4 id="what-value-does-cdk-pipelines-add-to-cdk-">What value does CDK Pipelines add to CDK?</h4>
+<p>(to be added)</p>
+<h2 id="schema">Schema</h2>
+<h4 id="archi">archi</h4>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">Field</th>
+<th style="text-align:left">Type</th>
+<th style="text-align:left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><code>id</code></td>
+<td style="text-align:left"><code>string</code></td>
+<td style="text-align:left"><strong>Required</strong>. ID for this pipeline</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>pipeline</code></td>
+<td style="text-align:left"><strong><em><code>pipeline</code></em></strong></td>
+<td style="text-align:left"><strong>Required</strong>. pipeline definition</td>
+</tr>
+</tbody>
+</table>
+<h4 id="pipeline">pipeline</h4>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">Field</th>
+<th style="text-align:left">Type</th>
+<th style="text-align:left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><code>repo</code></td>
+<td style="text-align:left"><strong><em><code>repo</code></em></strong></td>
+<td style="text-align:left"><strong>Required</strong>. source stage definition</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>build</code></td>
+<td style="text-align:left"><strong><em><code>build</code></em></strong></td>
+<td style="text-align:left">build stage definition</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>validate</code></td>
+<td style="text-align:left"><strong><em><code>validate</code></em></strong></td>
+<td style="text-align:left">validate stage definition</td>
+</tr>
+</tbody>
+</table>
+<h4 id="repo-codecommit-">repo (CodeCommit)</h4>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">Field</th>
+<th style="text-align:left">Type</th>
+<th style="text-align:left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><code>type</code></td>
+<td style="text-align:left"><em><code>CodeCommit</code></em></td>
+<td style="text-align:left"><strong>Required</strong>. literal if CodeCommit</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>name</code></td>
+<td style="text-align:left"><code>string</code></td>
+<td style="text-align:left"><strong>Required</strong>. name of the repo</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>create</code></td>
+<td style="text-align:left"><code>boolean</code></td>
+<td style="text-align:left">whether to create or pre-existing</td>
+</tr>
+</tbody>
+</table>
+<h4 id="repo-github-">repo (GitHub)</h4>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">Field</th>
+<th style="text-align:left">Type</th>
+<th style="text-align:left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><code>type</code></td>
+<td style="text-align:left"><em><code>GitHub</code></em></td>
+<td style="text-align:left"><strong>Required</strong>. literal if GitHub</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>name</code></td>
+<td style="text-align:left"><code>string</code></td>
+<td style="text-align:left"><strong>Required</strong>. GitHub repo name</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>tokenName</code></td>
+<td style="text-align:left"><code>string</code></td>
+<td style="text-align:left"><strong>Required</strong>. Secrets Manager token name</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>owner</code></td>
+<td style="text-align:left"><code>string</code></td>
+<td style="text-align:left"><strong>Required</strong>. GitHub account name</td>
+</tr>
+</tbody>
+</table>
+<h4 id="build">build</h4>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">Field</th>
+<th style="text-align:left">Type</th>
+<th style="text-align:left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><code>compute</code></td>
+<td style="text-align:left"><em><code>Small / Medium / Large / 2xLarge</code></em></td>
+<td style="text-align:left">build container compute size</td>
+</tr>
+</tbody>
+</table>
+<h4 id="validate">validate</h4>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">Field</th>
+<th style="text-align:left">Type</th>
+<th style="text-align:left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><code>compute</code></td>
+<td style="text-align:left"><em><code>Small / Medium / Large / 2xLarge</code></em></td>
+<td style="text-align:left">validate container compute size</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>emails</code></td>
+<td style="text-align:left"><code>array of strings</code></td>
+<td style="text-align:left">email addresses to send notification</td>
+</tr>
+</tbody>
+</table>
